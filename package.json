@@ -11,5 +11,8 @@
     "silverstripe"
   ],
   "author": "Igor Nadj",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "merge": "^1.2.0"
+  }
 }
