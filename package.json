@@ -14,5 +14,9 @@
   "license": "MIT",
   "dependencies": {
     "merge": "^1.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IgorNadj/ss-protractor.git"
   }
 }
