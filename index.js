@@ -29,30 +29,42 @@ var setup = function(config){
 		return browser.driver.isElementPresent(by.id('end-session'));
 	}, 30000);
 
-	// Build Tasks
-	for(var i in mergedConfig.buildTasks){
-		var buildTaskName = mergedConfig.buildTasks[i];
-		var taskUrl = browser.params.baseUrl + 'dev/tasks/' + buildTaskName;
-		browser.driver.get(taskUrl);
-		browser.driver.wait(function() {
-			return browser.driver.isElementPresent(by.css('h1'));
-		}, 30000);
-	}
+	runBuildTasks(mergedConfig.buildTasks);
 
 	browser.ignoreSynchronization = syncBefore;
 
 	console.log('setup complete');
 };
 
-var teardown = function(){
+var teardown = function(config){
 	console.log('teardown');
+
+        var defaultConfig = {
+                buildTasks: [] // see setup()
+        }
+        var mergedConfig = merge({}, defaultConfig, config);
+
 	var syncBefore = browser.ignoreSynchronization;
 	browser.ignoreSynchronization = true;
 
 	// end test session
 	browser.driver.get(browser.params.baseUrl + 'dev/testsession/end');
 
+	runBuildTasks(mergedConfig.buildTasks);
+
 	browser.ignoreSynchronization = syncBefore;
+};
+
+var runBuildTasks = function(tasks){
+        for(var i in tasks){
+                var name = tasks[i];
+                var url = browser.params.baseUrl + 'dev/tasks/' + name;
+                console.log(' running: '+url);
+                browser.driver.get(url);
+                browser.driver.wait(function() {
+                        return browser.driver.isElementPresent(by.css('h1'));
+                }, 30000);
+        }
 };
 
 
